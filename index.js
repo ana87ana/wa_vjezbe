@@ -1,5 +1,5 @@
 import express from 'express'
-import nekretnineRouter from 'nekretnine.js'
+import nekretnineRouter from './wa_vjeze/nekretnine.js'
 const app = express();
 
 app.use(nekretnineRouter);
