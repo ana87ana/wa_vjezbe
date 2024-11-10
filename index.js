@@ -1,8 +1,13 @@
 import express from 'express'
-import nekretnineRouter from './wa_vjeze/nekretnine.js'
+import nekretnineRouter from './nekretnine.js'
+import ponudeRouter from './ponude.js'
 const app = express();
 
-app.use(nekretnineRouter);
+const PORT = 3000;
+app.use(express.json());
+
+app.use('/nekretnine', nekretnineRouter);
+app.use('/ponude',ponudeRouter);
 
 app.listen(PORT, error => {
     if (error) {
