@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import proizvodiRouter from './routes/proizvodi.js'
 import narudzbeRouter from './routes/narudzbe.js'
 import { Proizvod, proizvodi } from './data.js';
@@ -7,6 +8,7 @@ const app = express();
 
 const PORT = 3000;
 app.use(express.json());
+app.use(cors());
 app.use("/proizvodi", proizvodiRouter);
 app.use("/narudzbe", narudzbeRouter);
 

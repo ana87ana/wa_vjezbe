@@ -1,11 +1,15 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+import Proizvod from './components/Proizvod.vue';
 import ProductView from './components/Proizvod.vue';
 </script>
 
 <template>
-  <h1 class="text-3xl font-bold underline">Hello world!</h1>
-</template>
+  <div>
+    <h1 class="text-3xl font-bold underline">Hello world!</h1>
+  <ProductView />
+  </div>
+  </template>
 
 <style scoped>
 .logo {

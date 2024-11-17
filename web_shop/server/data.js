@@ -1,9 +1,11 @@
 class Proizvod{
-    constructor(id, naziv, cijena, velicine){
+    constructor(id, naziv, cijena, velicine, slike, opis){
         this.id = id;
         this.naziv = naziv;
         this.cijena = cijena;
         this.velicine = velicine;
+        this.slike = slike;
+        this.opis = opis;
     }
 }
 

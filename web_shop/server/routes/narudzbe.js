@@ -41,7 +41,7 @@ router.post('/', (req, res) => {
     const narudzba_obj = new Narudzba(id_nove_narudzbe, naruceni_proizvodi);
 
     narudzbe.push(narudzba_obj);
-    res.status(201).json({ message: 'dodana narudžba'})
+    res.status(201).json(podatci);
 });
 
 export default router;
