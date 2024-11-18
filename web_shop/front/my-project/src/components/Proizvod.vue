@@ -287,4 +287,27 @@ console.error('Greška u dohvatu podataka:', error);
 });
 
 console.log('proizvod', proizvod);
+
+export default {
+  data() {
+    return {
+      product: {},
+    };
+  },
+  async mounted() {
+    const id = this.$route.params.id;
+    const response = await axios.get(`http://localhost:3000/proizvodi/${id}`);
+    this.product = response.data;
+  },
+  methods: {
+    addToCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(this.product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${this.product.name} added to cart!`);
+      this.$router.push('/proizvodi'); // Redirect to product list
+    },
+  },
+};
+
 </script>

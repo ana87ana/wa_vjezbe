@@ -1,6 +1,5 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
-import Proizvod from './components/Proizvod.vue';
 import ProductView from './components/Proizvod.vue';
 </script>
 
@@ -8,6 +7,7 @@ import ProductView from './components/Proizvod.vue';
   <div>
     <h1 class="text-3xl font-bold underline">Hello world!</h1>
   <ProductView />
+  <router-view />
   </div>
   </template>
 
