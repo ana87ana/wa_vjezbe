@@ -1,0 +1,14 @@
+[{
+    "id": 1,
+    "ime": "ivan",
+    "prezime": "ivic",
+    "godine_staza": 5,
+    "pozicija": "radnik"
+},
+{
+    "id": 1,
+    "ime": "iva",
+    "prezime": "blabla",
+    "godine_staza": 10,
+    "pozicija": "tajnica"
+}]
