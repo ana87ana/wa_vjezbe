@@ -11,6 +11,7 @@ app.get("/zaposlenik", async (req, res) => {
     let sortiraj_po_godinama = req.query.sortiraj_po_godinama;
     let min_godina = req.query.min_godina;
     let max_godina = req.query.max_godina;
+    
     try {
         const data = await fs.readFile('./zaposlenici.json', 'utf8');
         const zaposlenici = JSON.parse(data);
@@ -22,7 +23,7 @@ app.get("/zaposlenik", async (req, res) => {
             zaposlenici.sort((a, b) => b.godine_staza - a.godine_staza);
             }
             return res.status(200).send(zaposlenici);
-            }
+            };
 
         if(min_godina){
             const filtered_zaposlenici = zaposlenici.filter(zaposlenik => zaposlenik.godine_staza >= min_godina);
@@ -55,6 +56,12 @@ app.get("/zaposlenik", async (req, res) => {
 
 app.get("/zaposlenik:id", async (req, res) => {
     let query_id = req.query.id;
+
+    if (isNaN(query_id)){
+        res.status(400).json({ message: "Prislijedili ste parametar koji nije broj"});
+        return;
+    };
+
     try{
         const data = await fs.readFile('./zaposlenici.json', 'utf8');
         const zaposlenik = JSON.parse(data);
@@ -66,7 +73,7 @@ app.get("/zaposlenik:id", async (req, res) => {
             }
             else {
             res.status(404).send("Korisnik ne postoji");
-            }
+            };
     }
     catch (error) {
         console.error('Greška prilikom čitanja datoteke:', error);
@@ -80,6 +87,13 @@ app.post('/zaposlenici', async (req, res) => {
     if (Object.keys(zaposlenik).length === 0) {
     return res.status(400).send('Niste poslali podatke.');
     };
+
+    const kljucevi = Object.keys(zaposlenik);
+
+        if(!(kljucevi.includes("id") && kljucevi.includes("ime") && kljucevi.includes("prezime") && kljucevi.includes("godine_staza") && kljucevi.includes("pozicia"))){
+            res.status(400).send('Niste poslali sve potrebne podatke za narudžbu!');
+            return; 
+        };
 
     try {
         await fs.writeFile('./zaposlenici.json', JSON.stringify(zaposlenik));
