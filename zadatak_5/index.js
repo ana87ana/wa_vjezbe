@@ -6,6 +6,7 @@ const app = express();
 app.use(express.json());
 
 const db = await connectToDatabase();
+//comentar
 
 app.get('/', (req, res) => {
   res.send('Pizza app');
@@ -19,7 +20,7 @@ app.get('/pizze', async (req, res) => {
   res.status(200).json(pizze_rezultati);
 });
 
-// pizze/naziv
+
 app.get('/pizze/:naziv', async (req, res) => {
   let pizze_collection = db.collection('pizze');
   let naziv_param = req.params.naziv;
@@ -29,7 +30,7 @@ app.get('/pizze/:naziv', async (req, res) => {
   res.status(200).json(pizza);
 });
 
-// pizze
+
 app.post('/pizze', async (req, res) => {
   let podaci = req.body;
 
