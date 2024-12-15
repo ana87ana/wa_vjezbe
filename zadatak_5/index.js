@@ -1,12 +1,13 @@
 import express from 'express';
-
+import cors from 'cors';
 import { connectToDatabase } from './db.js';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const db = await connectToDatabase();
-//comentar
+
 
 app.get('/', (req, res) => {
   res.send('Pizza app');
@@ -32,15 +33,19 @@ app.get('/pizze/:naziv', async (req, res) => {
 
 
 app.post('/pizze', async (req, res) => {
-  let podaci = req.body;
-
   let pizze_collection = db.collection('pizze');
-  let result = await pizze_collection.insertOne(podaci);
-
-  console.log(result);
-
-  res.status(200).json(result);
-});
+  let nova_pizza = req.body;
+  if (!naziv || typeof cijena !== "number" || !slika || !Array.isArray(sastojci) || !sastojci.every(s => typeof s === "string")) {
+    return res.status(400).json({ error: "Invalid input" });
+  }
+  try {
+  let result = await pizze_collection.insertOne(nova_pizza);
+  res.status(201).json({ insertedId: result.insertedId }); 
+  } catch (error) {
+  console.log(error.errorResponse);
+  res.status(400).json({ error: error.errorResponse });
+  }
+  });
 
 const PORT = 3000;
 app.listen(PORT, error => {
