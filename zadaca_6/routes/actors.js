@@ -1,4 +1,6 @@
 import express from 'express';
+import { body, validationResult, query, param, check } from 'express-validator';
+import { pronadiActor } from '../middleware/actors.js';
 const router = express.Router();
 
 const actors = [
@@ -22,21 +24,15 @@ const actors = [
     }
 ];
 
-    router.get("/actors", (req, res) => {
+    router.get("/", [check('name').isString().withMessage('Mora biti string'), check('username').trim().notEmpty().withMessage('Polje je obavezno!')], async (req, res) => {
         res.status(200).json(actors);
     });
     
-    router.get("/actors/:id", (req, res) => {
-        const id_glumca = req.params.id;
-        const actor = actors.find(actor => actor.id == id_glumca);
-        if(actor){
-            return res.status(200).json(actor);
-        }else{
-            return res.status(400).json({ message: "Ne postoji glumac s tim id-em!"})
-        }
+    router.get("/:id", [pronadiActor, check('id').isInt().withMessage('Mora biti integer')], async (req, res) => {
+        res.status(200).json(req.actor);
     });
     
-    router.post("/actors", (req, res) => {
+    router.post("/", [check('name').exists().withMessage('name mora postojati'), check('birthYear').exists().withMessage('birthYear mora postojati')], async (req, res) => {
         const novi_glumac = req.body;
         let kljucevi = Object.keys(novi_glumac);
     
@@ -48,7 +44,7 @@ const actors = [
         }
     });
     
-    router.patch("/actors/:id", (req, res) => {
+    router.patch("/:id", [check('name').exists().withMessage('name mora postojati'), check('birthYear').exists().withMessage('birthYear mora postojati')], async (req, res) => {
         const id_glumac = req.params.id;
         const novi_glumac = req.body;
     

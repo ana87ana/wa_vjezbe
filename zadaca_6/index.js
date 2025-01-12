@@ -5,7 +5,10 @@ import moviesRouter from './routes/movies.js'
 const app = express();
 
 const za_svaki_zahtjev = (req, res, next) => {
-    console.log(`Trenutno vrijeme: ${new Date().toLocaleString()}`);
+    const time = new Date().toLocaleString();
+    const method = req.method;
+    const url = req.originalUrl;
+    console.log(`[${time}] : ${method} ${url}`);
     next();
 };
 

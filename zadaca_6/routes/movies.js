@@ -1,4 +1,6 @@
 import express from 'express';
+import { body, validationResult, query, param, check } from 'express-validator';
+import { pronadiMovie } from '../middleware/movies.js'
 const router = express.Router();
 
 const movies = [
@@ -25,21 +27,15 @@ const movies = [
     }
 ];
 
-router.get("/movies", (req, res) => {
+router.get("/", (req, res) => {
     res.status(200).json(movies);
 });
 
-router.get("/movies/:id", (req, res) => {
-    const id_filma = parseInt(req.params.id);
-    const movie = movies.find(movie => movie.id == id_filma);
-    if(movie){
-        return res.status(200).json(movie);
-    }else {
-    return res.status(404).json({ message: 'Film nije pronađen' });
-    }
+router.get("/:id", [pronadiMovie, check('id').isInt().withMessage('Mora biti integer')], async (req, res) => {
+    res.status(200).json(req.movie);
 });
 
-router.post("/movies", (req, res) => {
+router.post("/", [check('title').exists().withMessage('title mora postojati'), check('year').exists().withMessage('year mora postojati'), check('genre').exists().withMessage('genre mora postojati'), check('director').exists().withMessage('director mora postojati')], async (req, res) => {
     const novi_film = req.body;
     let kljucevi = Object.keys(novi_film);
 
@@ -51,7 +47,7 @@ router.post("/movies", (req, res) => {
     }
 });
 
-router.patch("/movies/:id", (req, res) => {
+router.patch("/:id", [check('title').exists().withMessage('title mora postojati'), check('year').exists().withMessage('year mora postojati'), check('genre').exists().withMessage('genre mora postojati'), check('director').exists().withMessage('director mora postojati')], async (req, res) => {
     const id_film = req.params.id;
     const novi_film = req.body;
 
